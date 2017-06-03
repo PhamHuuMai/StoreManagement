@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="StorageManage" Class="DataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-FAQ4TOO\SQLEXPRESS;Initial Catalog=StorageManage;Integrated Security=True" SettingsObjectName="ManageSoft.Properties.Settings" SettingsPropertyName="StorageManageConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.account" Member="accounts">
+    <Type Name="account">
+      <Column Name="Username" Type="System.String" DbType="VarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Pass" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.distributor" Member="distributors">
+    <Type Name="distributor">
+      <Column Name="id_distributor" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name_distributor" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="[_address]" Member="_address" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="distributor_employee" Member="employees" ThisKey="id_distributor" OtherKey="id_distributor" Type="employee" />
+      <Association Name="distributor_ex_ticket" Member="ex_tickets" ThisKey="id_distributor" OtherKey="id_distributor" Type="ex_ticket" />
+    </Type>
+  </Table>
+  <Table Name="dbo.employee" Member="employees">
+    <Type Name="employee">
+      <Column Name="id_employee" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name_employee" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="sex" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="birth_date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="id_distributor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="employee_ex_ticket" Member="ex_tickets" ThisKey="id_employee" OtherKey="id_write" Type="ex_ticket" />
+      <Association Name="employee_ex_ticket1" Member="ex_tickets1" ThisKey="id_employee" OtherKey="id_storager" Type="ex_ticket" />
+      <Association Name="employee_ex_ticket2" Member="ex_tickets2" ThisKey="id_employee" OtherKey="id_accountant" Type="ex_ticket" />
+      <Association Name="employee_ex_ticket3" Member="ex_tickets3" ThisKey="id_employee" OtherKey="id_shipper" Type="ex_ticket" />
+      <Association Name="employee_im_ticket" Member="im_tickets" ThisKey="id_employee" OtherKey="id_write" Type="im_ticket" />
+      <Association Name="employee_im_ticket1" Member="im_tickets1" ThisKey="id_employee" OtherKey="id_shipper" Type="im_ticket" />
+      <Association Name="employee_im_ticket2" Member="im_tickets2" ThisKey="id_employee" OtherKey="id_accountant" Type="im_ticket" />
+      <Association Name="employee_im_ticket3" Member="im_tickets3" ThisKey="id_employee" OtherKey="id_storager" Type="im_ticket" />
+      <Association Name="distributor_employee" Member="distributor" ThisKey="id_distributor" OtherKey="id_distributor" Type="distributor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ex_ticket" Member="ex_tickets">
+    <Type Name="ex_ticket">
+      <Column Name="id_ex_ticket" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="date_ex" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="id_write" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_storager" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_accountant" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_shipper" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_distributor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ex_ticket_ex_ticket_detail" Member="ex_ticket_details" ThisKey="id_ex_ticket" OtherKey="id_ex_ticket" Type="ex_ticket_detail" />
+      <Association Name="distributor_ex_ticket" Member="distributor" ThisKey="id_distributor" OtherKey="id_distributor" Type="distributor" IsForeignKey="true" />
+      <Association Name="employee_ex_ticket" Member="employee" ThisKey="id_write" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+      <Association Name="employee_ex_ticket1" Member="employee1" ThisKey="id_storager" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+      <Association Name="employee_ex_ticket2" Member="employee2" ThisKey="id_accountant" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+      <Association Name="employee_ex_ticket3" Member="employee3" ThisKey="id_shipper" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ex_ticket_detail" Member="ex_ticket_details">
+    <Type Name="ex_ticket_detail">
+      <Column Name="id_shipment" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_ex_ticket" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="number" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="real_number" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ex_ticket_ex_ticket_detail" Member="ex_ticket" ThisKey="id_ex_ticket" OtherKey="id_ex_ticket" Type="ex_ticket" IsForeignKey="true" />
+      <Association Name="shipment_ex_ticket_detail" Member="shipment" ThisKey="id_shipment" OtherKey="id_shipment" Type="shipment" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.im_ticket" Member="im_tickets">
+    <Type Name="im_ticket">
+      <Column Name="id_im_ticket" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="date_im" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="id_write" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_storager" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_accountant" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_shipper" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="im_ticket_shipment" Member="shipments" ThisKey="id_im_ticket" OtherKey="id_im_ticket" Type="shipment" />
+      <Association Name="employee_im_ticket" Member="employee" ThisKey="id_write" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+      <Association Name="employee_im_ticket1" Member="employee1" ThisKey="id_shipper" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+      <Association Name="employee_im_ticket2" Member="employee2" ThisKey="id_accountant" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+      <Association Name="employee_im_ticket3" Member="employee3" ThisKey="id_storager" OtherKey="id_employee" Type="employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.item" Member="items">
+    <Type Name="item">
+      <Column Name="id_item" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="item_name" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="name_type" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="planet_type" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="item_shipment" Member="shipments" ThisKey="id_item" OtherKey="id_item" Type="shipment" />
+    </Type>
+  </Table>
+  <Table Name="dbo.shipment" Member="shipments">
+    <Type Name="shipment">
+      <Column Name="id_shipment" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_item" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="im_unit_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ex_unit_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="number" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="unit" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="man_date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="exp_date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="id_im_ticket" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="posion" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Association Name="shipment_ex_ticket_detail" Member="ex_ticket_details" ThisKey="id_shipment" OtherKey="id_shipment" Type="ex_ticket_detail" />
+      <Association Name="im_ticket_shipment" Member="im_ticket" ThisKey="id_im_ticket" OtherKey="id_im_ticket" Type="im_ticket" IsForeignKey="true" />
+      <Association Name="item_shipment" Member="item" ThisKey="id_item" OtherKey="id_item" Type="item" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
